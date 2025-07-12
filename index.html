@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - AJAX & JSON Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Student Dashboard</h1>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link" data-section="students">Students</a></li>
+                <li><a href="#" class="nav-link" data-section="courses">Courses</a></li>
+                <li><a href="#" class="nav-link" data-section="grades">Grades</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <header class="page-header">
+                <h2 id="section-title">Student Information</h2>
+                <p class="page-description">Dynamic data loading with AJAX and JSON</p>
+            </header>
+
+            <div class="controls">
+                <button id="load-data-btn" class="btn btn-primary">Load Data</button>
+                <button id="refresh-btn" class="btn btn-secondary">Refresh</button>
+                <select id="data-filter" class="filter-select">
+                    <option value="all">All Students</option>
+                    <option value="active">Active Only</option>
+                    <option value="graduated">Graduated</option>
+                </select>
+            </div>
+
+            <div class="loading-spinner" id="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading data...</p>
+            </div>
+
+            <div class="data-container" id="data-container">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+
+            <div class="stats-section" id="stats-section">
+                <!-- Statistics will be displayed here -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Student Dashboard. Powered by AJAX & JSON.</p>
+        </div>
+    </footer>
+
+    <!-- Handlebars Templates -->
+    <script id="student-template" type="text/x-handlebars-template">
+        <div class="data-grid">
+            {{#each students}}
+            <div class="student-card {{status}}">
+                <div class="student-header">
+                    <h3 class="student-name">{{name}}</h3>
+                    <span class="student-status status-{{status}}">{{status}}</span>
+                </div>
+                <div class="student-details">
+                    <p><strong>ID:</strong> {{id}}</p>
+                    <p><strong>Email:</strong> {{email}}</p>
+                    <p><strong>Major:</strong> {{major}}</p>
+                    <p><strong>GPA:</strong> <span class="gpa">{{gpa}}</span></p>
+                    <p><strong>Credits:</strong> {{credits}}</p>
+                    <p><strong>Enrollment Date:</strong> {{enrollmentDate}}</p>
+                </div>
+                <div class="student-actions">
+                    <button class="btn btn-small btn-info" onclick="viewDetails('{{id}}')">View Details</button>
+                    <button class="btn btn-small btn-success" onclick="editStudent('{{id}}')">Edit</button>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </script>
+
+    <script id="course-template" type="text/x-handlebars-template">
+        <div class="course-list">
+            {{#each courses}}
+            <div class="course-item">
+                <h4>{{name}} ({{code}})</h4>
+                <p>Instructor: {{instructor}}</p>
+                <p>Credits: {{credits}} | Semester: {{semester}}</p>
+                <div class="course-stats">
+                    <span class="enrolled-count">{{enrolledStudents}} students</span>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </script>
+
+    <script id="stats-template" type="text/x-handlebars-template">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Total Students</h4>
+                <span class="stat-number">{{totalStudents}}</span>
+            </div>
+            <div class="stat-card">
+                <h4>Active Students</h4>
+                <span class="stat-number">{{activeStudents}}</span>
+            </div>
+            <div class="stat-card">
+                <h4>Average GPA</h4>
+                <span class="stat-number">{{averageGPA}}</span>
+            </div>
+            <div class="stat-card">
+                <h4>Graduated</h4>
+                <span class="stat-number">{{graduatedStudents}}</span>
+            </div>
+        </div>
+    </script>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
